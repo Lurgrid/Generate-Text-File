@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include <limits.h>
 #include "stack.h"
 
 #define MAX_LEN 31
@@ -17,19 +18,19 @@ int main(int argc, char **argv) {
         "\n\t[FILE_OUT]: "
         "The path to the file that will be created with the random words.\n"
         "\n\t[FILE_IN]: "
-        "The path to the file of words that will be used to create the file.\n",
-        argv[0]);
+        "The path to the file of words that will be used to create the file.\n"
+        "\n\t[Number of words]: "
+        "Max value is %ld.\n",
+        argv[0], LONG_MAX);
     return EXIT_FAILURE;
   }
-  int a;
-  int b;
-  if (sscanf(argv[3], "%d", &a) != 1 || a <= 0
-      || sscanf(argv[4], "%d", &b) != 1 || b <= 0) {
+  long int a;
+  long int b;
+  if (sscanf(argv[3], "%ld", &a) != 1 || a <= 0
+      || sscanf(argv[4], "%ld", &b) != 1 || b <= 0) {
     fprintf(stderr, "*** Error: Please enter a positive non-zero integer.\n");
     return EXIT_FAILURE;
   }
-  size_t nb_w = (size_t) a;
-  size_t width = (size_t) b;
   FILE *in = fopen(argv[2], "r");
   if (in == NULL) {
     fprintf(stderr, "*** Error: Cannot open the %s file.\n", argv[2]);
@@ -82,11 +83,11 @@ int main(int argc, char **argv) {
   }
   fprintf(stderr,
       "--- Info: Number of words in %s: %ld\n", argv[2], stack_height(s));
-  size_t k = 1;
-  while (k <= nb_w
+  long int k = 0;
+  while (k < a
       && fprintf(out, "%s",
       (char *) stack_nth(s, (size_t) rand() % stack_height(s) + 1)) != EOF
-      && fputc(k % width == 0 ? '\n' : ' ', out) != EOF) {
+      && fputc(k != 0 && k % b == 0 ? '\n' : ' ', out) != EOF) {
     ++k;
   }
   goto clear;
