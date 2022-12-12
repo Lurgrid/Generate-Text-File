@@ -7,7 +7,7 @@
 //  struct stack, stack : gestion des adresses des objets dans la pile à l'aide
 //    d'un tableau a taille dynamique. Le composant aref a pour valeur le
 //    pointeur du tableau de ref, le composant height mémorise la longueur de
-//    la liste. Le composant height a donc pour valeur la hauteur de la pile.
+//    la tableau. Le composant height a donc pour valeur la hauteur de la pile.
 //    et capacity a pour valeur la capacité actuel de la pile.
 
 #define DEFAULT_SIZE 32
